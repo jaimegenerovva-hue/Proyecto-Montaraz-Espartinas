@@ -26,7 +26,10 @@ import {
   Calculator,
   Wallet,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  ShoppingBag,
+  Trees,
+  Zap
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
@@ -315,6 +318,40 @@ export default function App() {
                   Explorar zona y servicios
                 </a>
               </div>
+            </div>
+          </div>
+
+          {/* Points of Interest */}
+          <div className="mt-12 md:mt-16 pt-10 border-t border-slate-100">
+            <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-slate-900 mb-8">Puntos de interés cercanos</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+              {[
+                { 
+                  icon: <ShoppingBag className="w-4 h-4" />, 
+                  label: "Supermercado más cercano", 
+                  value: "Cash Fresh (Ctra. Villanueva del Ariscal, 2)" 
+                },
+                { 
+                  icon: <Zap className="w-4 h-4" />, 
+                  label: "Accesos rápidos", 
+                  value: "Conexión A-49 / SE-40" 
+                },
+                { 
+                  icon: <Trees className="w-4 h-4" />, 
+                  label: "Entorno natural / Paseos", 
+                  value: "Zona de campo y paseos alrededor" 
+                },
+              ].map((item, idx) => (
+                <div key={idx} className="flex items-start gap-4 group">
+                  <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center text-slate-300 group-hover:bg-primary/5 group-hover:text-primary transition-all duration-300 shrink-0 border border-slate-100">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="text-[9px] font-bold uppercase text-slate-400 tracking-[0.1em] mb-1">{item.label}</p>
+                    <p className="text-[11px] font-semibold text-slate-700 leading-snug">{item.value}</p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
