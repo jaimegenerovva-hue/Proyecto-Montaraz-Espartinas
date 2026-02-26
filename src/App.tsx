@@ -35,6 +35,13 @@ export default function App() {
   const [isWidgetOpen, setIsWidgetOpen] = useState(true);
   const [scrolled, setScrolled] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
+  const [showCopiedToast, setShowCopiedToast] = useState(false);
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setShowCopiedToast(true);
+    setTimeout(() => setShowCopiedToast(false), 2000);
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
@@ -83,7 +90,19 @@ export default function App() {
     "https://fotos15.apinmo.com/3503/27731492/37-2s.jpg",
     "https://fotos15.apinmo.com/3503/27731492/37-7s.jpg",
     "https://fotos15.apinmo.com/3503/27731492/37-9s.jpg",
-    "https://fotos15.apinmo.com/3503/27731492/37-23s.jpg"
+    "https://fotos15.apinmo.com/3503/27731492/37-23s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-3s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-4s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-5s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-6s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-8s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-10s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-11s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-13s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-16s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-19s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-21s.jpg",
+    "https://fotos15.apinmo.com/3503/27731492/37-24s.jpg"
   ];
 
   return (
@@ -105,10 +124,7 @@ export default function App() {
               ))}
             </nav>
           </div>
-          <button className="bg-primary hover:bg-red-600 text-white px-4 lg:px-5 py-2.5 rounded text-[11px] font-bold uppercase transition-all flex items-center gap-2 shadow-sm">
-            <Menu className="w-4 h-4" />
-            <span className="hidden sm:inline">Viviendas en Sevilla</span>
-          </button>
+          {/* Button removed as per request */}
         </div>
       </header>
 
@@ -120,9 +136,24 @@ export default function App() {
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
               <div className="flex items-center justify-between md:justify-start gap-4">
                 <span className="text-4xl md:text-5xl font-black text-primary">395.000 €</span>
-                <button className="flex items-center gap-1.5 text-slate-400 hover:text-primary transition-colors border border-slate-200 px-4 py-1.5 rounded text-[10px] font-bold uppercase">
+                <button 
+                  onClick={handleShare}
+                  className="relative flex items-center gap-1.5 text-slate-400 hover:text-primary transition-colors border border-slate-200 px-4 py-1.5 rounded text-[10px] font-bold uppercase"
+                >
                   <Share2 className="w-3.5 h-3.5" />
                   Comparte
+                  <AnimatePresence>
+                    {showCopiedToast && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                        animate={{ opacity: 1, y: -35, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.9 }}
+                        className="absolute left-1/2 -translate-x-1/2 bg-slate-900 text-white px-3 py-1 rounded text-[9px] whitespace-nowrap pointer-events-none"
+                      >
+                        Enlace copiado
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </button>
               </div>
               <div className="grid grid-cols-3 sm:grid-cols-5 gap-4 md:gap-8">
@@ -144,28 +175,18 @@ export default function App() {
           </div>
 
           {/* Image Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-4 grid-rows-2 gap-2 h-[300px] md:h-[550px] mb-6 overflow-hidden rounded-lg">
+          <div className="grid grid-cols-1 md:grid-cols-4 md:grid-rows-2 gap-2 h-[300px] md:h-[550px] mb-4 md:mb-6 overflow-hidden rounded-lg">
             <div 
               className="md:col-span-4 md:row-span-2 relative group overflow-hidden cursor-pointer"
               onClick={() => setSelectedImageIndex(0)}
             >
               <img src={images[0]} alt="Main" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              <div className="absolute bottom-4 left-4 md:bottom-6 md:left-6 flex flex-wrap gap-2 md:gap-3" onClick={(e) => e.stopPropagation()}>
-                <button className="bg-primary/95 hover:bg-primary text-white px-3 md:px-4 py-2 rounded text-[9px] md:text-[11px] font-bold flex items-center gap-2 shadow-xl transition-all">
-                  <Wallet className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                  Financiación
-                </button>
-                <button className="bg-slate-900/90 hover:bg-slate-900 text-white px-3 md:px-4 py-2 rounded text-[9px] md:text-[11px] font-bold flex items-center gap-2 shadow-xl transition-all">
-                  <Calculator className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                  Reforma
-                </button>
-              </div>
             </div>
           </div>
 
           {/* Thumbnails */}
-          <div className="mb-16">
-            <div className="flex items-center justify-center gap-8 mb-8">
+          <div className="mb-12 md:mb-16">
+            <div className="flex items-center justify-center gap-4 md:gap-8 mb-6 md:mb-8">
               <div className="h-px bg-slate-100 flex-grow max-w-[200px]" />
               <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Galería de fotos</span>
               <div className="h-px bg-slate-100 flex-grow max-w-[200px]" />
@@ -175,7 +196,7 @@ export default function App() {
                 <div 
                   key={idx} 
                   onClick={() => setSelectedImageIndex(idx)}
-                  className={`flex-none w-32 md:w-40 h-24 md:h-28 rounded overflow-hidden cursor-pointer transition-all ${idx === 4 ? 'ring-2 ring-primary ring-offset-2' : 'grayscale hover:grayscale-0'}`}
+                  className={`flex-none w-32 md:w-40 h-24 md:h-28 rounded overflow-hidden cursor-pointer transition-all ${idx === 4 ? 'ring-2 ring-primary ring-offset-2' : ''}`}
                 >
                   <img src={thumb} alt={`Thumb ${idx}`} className="w-full h-full object-cover" />
                 </div>
@@ -204,17 +225,7 @@ export default function App() {
                 </p>
               </div>
               
-              <div className="flex flex-wrap items-center gap-10 pt-10 border-t border-slate-100">
-                <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center text-[10px] font-black text-white">E</div>
-                  <span className="text-[10px] text-slate-500 uppercase font-bold tracking-wider">Consumo: Exento</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Maximize2 className="w-5 h-5 text-slate-300" />
-                  <span className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Plano disponible</span>
-                </div>
-                <div className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Cuota comunidad: Consultar</div>
-              </div>
+              {/* Info row removed as per request */}
             </div>
 
             <div className="lg:col-span-4 lg:sticky lg:top-28">
@@ -312,7 +323,7 @@ export default function App() {
       {/* Footer */}
       <footer className="bg-slate-900 text-slate-400 pt-20 pb-10">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 mb-20">
             <div className="space-y-8">
               <div className="flex items-center gap-2">
                 <img 
@@ -329,27 +340,29 @@ export default function App() {
             <div className="space-y-6">
               <h5 className="text-[11px] font-black uppercase tracking-[0.2em] text-white">Contacto Central</h5>
               <ul className="space-y-4 text-[11px] font-medium">
-                <li className="flex items-center gap-4 hover:text-white transition-colors cursor-pointer">
-                  <Mail className="w-4 h-4 text-slate-600" />
-                  magdalena@suhogarsevilla.com
+                <li>
+                  <a href={`mailto:${contactInfo.email}`} className="flex items-center gap-4 hover:text-primary transition-colors group">
+                    <Mail className="w-4 h-4 text-slate-600 group-hover:text-primary transition-colors" />
+                    {contactInfo.email}
+                  </a>
                 </li>
-                <li className="flex items-center gap-4 hover:text-white transition-colors cursor-pointer">
-                  <Phone className="w-4 h-4 text-slate-600" />
-                  +34 635 475 213
+                <li>
+                  <a href={`tel:${contactInfo.phone.replace(/\s/g, '')}`} className="flex items-center gap-4 hover:text-primary transition-colors group">
+                    <Phone className="w-4 h-4 text-slate-600 group-hover:text-primary transition-colors" />
+                    {contactInfo.phone}
+                  </a>
                 </li>
-                <li className="flex items-start gap-4 hover:text-white transition-colors cursor-pointer">
-                  <MapPin className="w-4 h-4 text-slate-600 shrink-0" />
-                  Calle Chile 104, Bormujos 41930, Sevilla
+                <li>
+                  <a 
+                    href="https://maps.app.goo.gl/GVrz482QrSKJrNXn9" 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="flex items-start gap-4 hover:text-primary transition-colors group"
+                  >
+                    <MapPin className="w-4 h-4 text-slate-600 shrink-0 group-hover:text-primary transition-colors" />
+                    {contactInfo.address}
+                  </a>
                 </li>
-              </ul>
-            </div>
-
-            <div className="space-y-6">
-              <h5 className="text-[11px] font-black uppercase tracking-[0.2em] text-white">La empresa</h5>
-              <ul className="space-y-3 text-[11px] font-medium">
-                {['La empresa', 'Contacto', 'Portal de transparencia', 'Oficinas ComprarCasa', 'Aviso legal'].map((item) => (
-                  <li key={item}><a href="#" className="hover:text-primary transition-colors">{item}</a></li>
-                ))}
               </ul>
             </div>
 
@@ -377,9 +390,8 @@ export default function App() {
               <div>
                 <h5 className="text-[11px] font-black uppercase tracking-[0.2em] text-white mb-4">Simuladores</h5>
                 <ul className="text-[11px] space-y-2 font-medium">
-                  <li><a href="#" className="hover:text-primary transition-colors">Calcula tu hipoteca</a></li>
-                  <li><a href="#" className="hover:text-primary transition-colors">Calcula tu reforma</a></li>
-                  <li><a href="#" className="hover:text-primary transition-colors">Valoración tu vivienda</a></li>
+                  <li><a href="https://suhogar.comprarcasa.com/landing/valorador" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Valora tu vivienda</a></li>
+                  <li><a href="https://suhogar.comprarcasa.com/landing/calculadora-hipoteca" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Calculadora hipoteca</a></li>
                 </ul>
               </div>
             </div>
@@ -490,9 +502,14 @@ export default function App() {
                   ¿Estás interesado en esta villa en Espartinas? Estamos aquí para ayudarte.
                 </p>
                 <div className="space-y-2">
-                  <button className="w-full py-3 bg-primary text-white rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-red-600 transition-all shadow-lg shadow-primary/20">
+                  <a 
+                    href={`https://wa.me/${contactInfo.whatsapp}?text=${encodeURIComponent("Hola Magdalena, estoy interesado/a en la vivienda de Espartinas. ¿Podemos agendar una visita?")}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-3 bg-primary text-white rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-red-600 transition-all shadow-lg shadow-primary/20 flex items-center justify-center"
+                  >
                     ¡Sí, me interesa!
-                  </button>
+                  </a>
                   <button className="w-full py-3 bg-slate-50 text-slate-600 rounded-lg text-[10px] font-black uppercase tracking-widest hover:bg-slate-100 transition-all border border-slate-100">
                     Tengo una pregunta
                   </button>
