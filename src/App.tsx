@@ -162,9 +162,9 @@ export default function App() {
               <div className="grid grid-cols-3 sm:grid-cols-5 gap-4 md:gap-8">
                 {[
                   { icon: <BedDouble />, value: "4", label: "Dormitorios" },
-                  { icon: <ShowerHead />, value: "2", label: "Baños" },
-                  { icon: <Maximize2 />, value: "171 m²", label: "Construidos" },
-                  { icon: <Ruler />, value: "145 m²", label: "Útiles" },
+                  { icon: <ShowerHead />, value: "4", label: "Baños" },
+                  { icon: <Maximize2 />, value: "191 m²", label: "Construidos" },
+                  { icon: <Ruler />, value: "988 m²", label: "m² de parcela" },
                   { icon: <CheckCircle2 />, value: "Excelente", label: "Estado" },
                 ].map((item, idx) => (
                   <div key={idx} className="flex flex-col items-center">
@@ -234,7 +234,7 @@ export default function App() {
             <div className="lg:col-span-4 lg:sticky lg:top-28">
               <div className="bg-slate-50 rounded-xl border border-slate-100 overflow-hidden shadow-sm">
                 <div className="bg-primary px-6 py-4 text-center">
-                  <h4 className="text-white font-bold tracking-[0.15em] uppercase text-[11px]">RED COMPOSTELA - MAGDALENA</h4>
+                  <h4 className="text-white font-bold tracking-[0.15em] uppercase text-[11px]">CONTACTO - MAGDALENA</h4>
                 </div>
                 <div className="p-6 md:p-8">
                   <div className="flex flex-col items-center mb-8">
