@@ -1,5 +1,6 @@
 {
-  "name": "ComprarCasa - Villa en Espartinas",
+  "name": "Montaraz",
   "description": "Anuncio detallado de venta de villa independiente en Espartinas, Sevilla.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": []
 }
